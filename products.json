@@ -1,0 +1,8 @@
+[
+  { "id":1, "name":"Aurelian Chronograph", "collection":"Heritage", "price_usd":4800, "movement":"Automatic", "case_material":"Steel" },
+  { "id":2, "name":"Celeste Moonphase",    "collection":"Heritage", "price_usd":7200, "movement":"Automatic", "case_material":"Steel" },
+  { "id":3, "name":"Nocturne GMT",         "collection":"Voyager",  "price_usd":5600, "movement":"Automatic", "case_material":"Titanium" },
+  { "id":4, "name":"Solstice Dress",       "collection":"Atelier",  "price_usd":3900, "movement":"Hand-wound", "case_material":"Rose gold" },
+  { "id":5, "name":"Cascade Diver",        "collection":"Voyager",  "price_usd":4400, "movement":"Automatic", "case_material":"Steel" },
+  { "id":6, "name":"Obelisk Tourbillon",   "collection":"Atelier",  "price_usd":24500, "movement":"Automatic", "case_material":"Platinum" }
+]
