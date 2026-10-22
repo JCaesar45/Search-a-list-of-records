@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Meridian</title>
+<style>
+  body{font-family:Helvetica,Arial,sans-serif;background:#f6f3ee;color:#0d0d0f;padding:40px;max-width:1100px;margin:auto}
+  h1{font-family:Georgia,serif;font-weight:400}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:24px}
+  .card{background:#fff;border:1px solid #e2ddd4;padding:24px}
+  .card h2{font-family:Georgia,serif;font-weight:400;font-size:18px;margin:8px 0}
+  .coll{font-size:11px;letter-spacing:3px;color:#b8945a;text-transform:uppercase}
+  .price{margin-top:12px}
+</style>
+</head>
+<body>
+<h1>Timepieces</h1>
+<div class="grid" id="grid"></div>
+<script>
+fetch("/products").then(r=>r.json()).then(list=>{
+  const g=document.getElementById("grid");
+  list.forEach(p=>{
+    const c=document.createElement("div");c.className="card";
+    c.innerHTML=`<div class="coll">${p.collection}</div><h2>${p.name}</h2>
+      <div>${p.movement} · ${p.case_material}</div>
+      <div class="price">$${p.price_usd.toLocaleString()}</div>`;
+    g.appendChild(c);
+  });
+});
+</script>
+</body>
+</html>
