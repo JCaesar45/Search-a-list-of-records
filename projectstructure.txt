@@ -16,7 +16,7 @@ meridian/
 │   └── static/index.html
 └── java/                   (Option D: Spring Boot)
     ├── pom.xml
-    └── src/main/java/com/meridian/
+    └── src/
         ├── Application.java
         ├── Product.java
         ├── ProductController.java
