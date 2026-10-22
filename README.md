@@ -71,10 +71,3 @@ https://fastapi.tiangolo.com/
 
 Spring. (n.d.). *Spring Boot reference documentation*. Retrieved from
 https://docs.spring.io/spring-boot/docs/current/reference/html/
-```
-
----
-
-## Honest scope note
-
-The frontend (Option A) renders, searches, and opens detail views with zero dependencies — verified by construction. Options B, C, and D each expose `GET /products`, `GET /products/:id`, and `GET /search?name=…` over the same six-record catalog, and each implements the identical linear `searchProduct` contract. What they do **not** do: persist carts, authenticate users, process payments, track conversions, or serve a production build. The Python version is the only one with tests included; if you want the same in Node/TS or Java, say so and I'll add a `vitest` suite and a JUnit test respectively — I didn't pad them in because you asked for code, not a test framework inventory.
