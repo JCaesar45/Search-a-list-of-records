@@ -1,0 +1,23 @@
+meridian/
+├── README.md
+├── frontend/
+│   └── index.html          (Option A: standalone, double-click to run)
+├── node-ts/                (Option B: Express + TypeScript)
+│   ├── package.json
+│   ├── tsconfig.json
+│   ├── products.json
+│   ├── src/server.ts
+│   └── src/search.ts
+├── python/                 (Option C: FastAPI)
+│   ├── requirements.txt
+│   ├── main.py
+│   ├── search.py
+│   ├── test_search.py
+│   └── static/index.html
+└── java/                   (Option D: Spring Boot)
+    ├── pom.xml
+    └── src/main/java/com/meridian/
+        ├── Application.java
+        ├── Product.java
+        ├── ProductController.java
+        └── SearchService.java
