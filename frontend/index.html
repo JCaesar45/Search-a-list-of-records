@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Meridian — Luxury Watches</title>
+    <style>
+      :root {
+        --ink: #0d0d0f;
+        --paper: #f6f3ee;
+        --gold: #b8945a;
+        --line: #e2ddd4;
+        --muted: #6b6560;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        background: var(--paper);
+        color: var(--ink);
+        line-height: 1.5;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 24px 40px;
+        border-bottom: 1px solid var(--line);
+      }
+      .brand {
+        font-family: Georgia, serif;
+        font-size: 26px;
+        letter-spacing: 6px;
+      }
+      .brand span {
+        color: var(--gold);
+      }
+      .search {
+        display: flex;
+        gap: 8px;
+      }
+      .search input {
+        border: 1px solid var(--line);
+        background: transparent;
+        padding: 10px 14px;
+        font-size: 14px;
+        width: 240px;
+        outline: none;
+      }
+      .search input:focus {
+        border-color: var(--gold);
+      }
+      .search button {
+        background: var(--ink);
+        color: var(--paper);
+        border: none;
+        padding: 10px 20px;
+        font-size: 13px;
+        letter-spacing: 2px;
+        cursor: pointer;
+      }
+      .search button:hover {
+        background: var(--gold);
+      }
+      main {
+        padding: 60px 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-family: Georgia, serif;
+        font-weight: 400;
+        font-size: 38px;
+        margin-bottom: 8px;
+      }
+      .sub {
+        color: var(--muted);
+        margin-bottom: 48px;
+        font-size: 15px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 32px;
+      }
+      .card {
+        background: #fff;
+        border: 1px solid var(--line);
+        padding: 28px;
+        cursor: pointer;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+      }
+      .card .coll {
+        font-size: 11px;
+        letter-spacing: 3px;
+        color: var(--gold);
+        text-transform: uppercase;
+        margin-bottom: 14px;
+      }
+      .card h2 {
+        font-family: Georgia, serif;
+        font-weight: 400;
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+      .card .meta {
+        font-size: 13px;
+        color: var(--muted);
+        margin-bottom: 18px;
+      }
+      .card .price {
+        font-size: 18px;
+        letter-spacing: 1px;
+      }
+      .detail {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(13, 13, 15, 0.92);
+        z-index: 10;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+      }
+      .detail.open {
+        display: flex;
+      }
+      .detail-inner {
+        background: var(--paper);
+        max-width: 520px;
+        width: 100%;
+        padding: 48px;
+        position: relative;
+      }
+      .detail-inner h2 {
+        font-family: Georgia, serif;
+        font-weight: 400;
+        font-size: 28px;
+        margin-bottom: 16px;
+      }
+      .detail-inner dl {
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        gap: 8px 16px;
+        margin-top: 24px;
+        font-size: 14px;
+      }
+      .detail-inner dt {
+        color: var(--muted);
+      }
+      .close {
+        position: absolute;
+        top: 16px;
+        right: 20px;
+        background: none;
+        border: none;
+        font-size: 26px;
+        cursor: pointer;
+        color: var(--muted);
+      }
+      .empty {
+        padding: 60px;
+        text-align: center;
+        color: var(--muted);
+        font-style: italic;
+      }
+      footer {
+        padding: 40px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 12px;
+        border-top: 1px solid var(--line);
+        margin-top: 80px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="brand">
+        MERI
+        <span>·</span>
+        DIAN
+      </div>
+      <form class="search" id="searchForm">
+        <input
+          id="q"
+          type="text"
+          placeholder="Search by name…"
+          autocomplete="off"
+        />
+        <button type="submit">SEARCH</button>
+      </form>
+    </header>
+
+    <main>
+      <h1>Timepieces</h1>
+      <p class="sub">Six references. Each one exact.</p>
+      <div class="grid" id="grid"></div>
+    </main>
+
+    <div class="detail" id="detail">
+      <div class="detail-inner">
+        <button class="close" id="closeBtn" aria-label="Close">&times;</button>
+        <div class="coll" id="dColl"></div>
+        <h2 id="dName"></h2>
+        <div class="price" id="dPrice"></div>
+        <dl id="dSpecs"></dl>
+      </div>
+    </div>
+
+    <footer>Meridian · Reference implementation · MIT</footer>
+
+    <script>
+      const products = [
+        {
+          id: 1,
+          name: "Aurelian Chronograph",
+          collection: "Heritage",
+          price_usd: 4800,
+          movement: "Automatic",
+          case_material: "Steel"
+        },
+        {
+          id: 2,
+          name: "Celeste Moonphase",
+          collection: "Heritage",
+          price_usd: 7200,
+          movement: "Automatic",
+          case_material: "Steel"
+        },
+        {
+          id: 3,
+          name: "Nocturne GMT",
+          collection: "Voyager",
+          price_usd: 5600,
+          movement: "Automatic",
+          case_material: "Titanium"
+        },
+        {
+          id: 4,
+          name: "Solstice Dress",
+          collection: "Atelier",
+          price_usd: 3900,
+          movement: "Hand-wound",
+          case_material: "Rose gold"
+        },
+        {
+          id: 5,
+          name: "Cascade Diver",
+          collection: "Voyager",
+          price_usd: 4400,
+          movement: "Automatic",
+          case_material: "Steel"
+        },
+        {
+          id: 6,
+          name: "Obelisk Tourbillon",
+          collection: "Atelier",
+          price_usd: 24500,
+          movement: "Automatic",
+          case_material: "Platinum"
+        }
+      ];
+
+      function searchProduct(name) {
+        for (let i = 0; i < products.length; i++) {
+          if (products[i].name === name) return i;
+        }
+        return -1;
+      }
+
+      function money(n) {
+        return "$" + n.toLocaleString("en-US");
+      }
+
+      const grid = document.getElementById("grid");
+      const detail = document.getElementById("detail");
+
+      function render(list) {
+        grid.innerHTML = "";
+        if (list.length === 0) {
+          const e = document.createElement("div");
+          e.className = "empty";
+          e.textContent = "No timepiece matches that name.";
+          grid.appendChild(e);
+          return;
+        }
+        list.forEach((p) => {
+          const card = document.createElement("article");
+          card.className = "card";
+          card.innerHTML = `
+      <div class="coll">${p.collection}</div>
+      <h2>${p.name}</h2>
+      <div class="meta">${p.movement} · ${p.case_material}</div>
+      <div class="price">${money(p.price_usd)}</div>`;
+          card.addEventListener("click", () => openDetail(p));
+          grid.appendChild(card);
+        });
+      }
+
+      function openDetail(p) {
+        document.getElementById("dColl").textContent = p.collection;
+        document.getElementById("dName").textContent = p.name;
+        document.getElementById("dPrice").textContent = money(p.price_usd);
+        document.getElementById("dSpecs").innerHTML = `
+    <dt>Movement</dt><dd>${p.movement}</dd>
+    <dt>Case</dt><dd>${p.case_material}</dd>
+    <dt>Reference</dt><dd>MRD-${String(p.id).padStart(3, "0")}</dd>`;
+        detail.classList.add("open");
+      }
+
+      document
+        .getElementById("closeBtn")
+        .addEventListener("click", () => detail.classList.remove("open"));
+      detail.addEventListener("click", (e) => {
+        if (e.target === detail) detail.classList.remove("open");
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") detail.classList.remove("open");
+      });
+
+      document.getElementById("searchForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const q = document.getElementById("q").value.trim();
+        if (q === "") {
+          render(products);
+          return;
+        }
+        const idx = searchProduct(q);
+        render(idx === -1 ? [] : [products[idx]]);
+      });
+
+      render(products);
+    </script>
+  </body>
+</html>
